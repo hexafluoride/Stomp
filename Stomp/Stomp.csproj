@@ -39,6 +39,7 @@
     <Compile Include="FastBitmap.cs" />
     <Compile Include="IFilter.cs" />
     <Compile Include="Filters\ChromaShift.cs" />
+    <Compile Include="Filters\ScanLines.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
