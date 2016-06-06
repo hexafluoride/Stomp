@@ -242,20 +242,36 @@ namespace Stomp
 
         public void CreateGap(int start, int length, GapBehavior behavior = GapBehavior.Random)
         {
-            byte[] gapped = new byte[length];
+            byte[] gapped = new byte[Math.Abs(length)];
 
-            Array.Copy(Data, start, gapped, 0, length);
-            Array.Copy(Data, (start + length), Data, start, Data.Length - (start + length));
+            int gap_pos = 0;
+
+            if (length > 0)
+            {
+                Array.Copy(Data, start, gapped, 0, length);
+                Array.Copy(Data, (start + length), Data, start, Data.Length - (start + length));
+
+                gap_pos = Data.Length - length;
+            }
+            else
+            {
+                length = Math.Abs(length);
+
+                Buffer.BlockCopy(Data, Data.Length - start, gapped, 0, length);
+                Buffer.BlockCopy(Data, start, Data, (start + length), Data.Length - (start + length));
+
+                gap_pos = start;
+            }
 
             switch (behavior)
             {
                 case GapBehavior.Black:
-                    for (int i = Data.Length - length; i < Data.Length; i++)
+                    for (int i = gap_pos; i < gap_pos + length; i++)
                         Data[i] = 0;
                     
                     break;
                 case GapBehavior.White:
-                    for (int i = Data.Length - length; i < Data.Length; i++)
+                    for (int i = gap_pos; i < gap_pos + length; i++)
                         Data[i] = 255;
 
                     break;
@@ -263,10 +279,10 @@ namespace Stomp
                     byte[] rnd = new byte[length];
                     Random.NextBytes(rnd);
 
-                    Array.Copy(rnd, 0, Data, Data.Length - length, length);
+                    Array.Copy(rnd, 0, Data, gap_pos, length);
                     break;
                 case GapBehavior.Gapped:
-                    Array.Copy(gapped, 0, Data, Data.Length - length, length);
+                    Array.Copy(gapped, 0, Data, gap_pos, length);
                     break;
             }
         }
