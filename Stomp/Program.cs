@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.IO;
 
 using Stomp.Filters;
 
@@ -11,10 +12,10 @@ namespace Stomp
 
         public static void Main(string[] args)
         {
-            FastBitmap bmp = new FastBitmap("/home/hexafluoride/test.png");
+            FastBitmap bmp = new FastBitmap(args[0]);
             bmp.Lock();
 
-            Console.WriteLine("Opened test.jpg with size {0}({2})x{1}", bmp.Width, bmp.Height, bmp.Subwidth);
+            Console.WriteLine("Opened {0} with size {1}({3})x{2}", Path.GetFileName(args[0]), bmp.Width, bmp.Height, bmp.Subwidth);
 
             Default.Append(
                 new BitDepth() { BitsPerChannel = 3 },
@@ -26,7 +27,7 @@ namespace Stomp
 
             Default.Apply(bmp);
 
-            bmp.Save("/home/hexafluoride/gapped.png");
+            bmp.Save(args[0] + "-glitched.png");
         }
 
         public static void TestColor(FastBitmap bmp, int x, int y)
