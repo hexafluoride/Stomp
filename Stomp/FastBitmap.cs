@@ -11,6 +11,8 @@ namespace Stomp
         private Bitmap InternalBitmap;
         private BitmapData Handle;
 
+        private Random Random = new Random();
+
         public byte[] Data;
         public bool Locked { get; set; }
 
@@ -41,6 +43,12 @@ namespace Stomp
         public FastBitmap(string path)
         {
             InternalBitmap = new Bitmap(path);
+        }
+
+        public void Save(string path)
+        {
+            Unlock();
+            InternalBitmap.Save(path);
         }
 
         public void Lock()
@@ -193,6 +201,73 @@ namespace Stomp
                     throw new Exception("Unsupported pixel format");
             }
         }
+
+        public byte[] GetRawBytes(int x, int y)
+        {
+            int index = (y * Handle.Stride);
+            int len = 0;
+
+            switch (InternalBitmap.PixelFormat)
+            {
+                case PixelFormat.Format16bppArgb1555:
+                case PixelFormat.Format16bppGrayScale:
+                case PixelFormat.Format16bppRgb555:
+                case PixelFormat.Format16bppRgb565:
+                    len = 2;
+                    break;
+                case PixelFormat.Format24bppRgb:
+                    len = 3;
+                    break;
+                case PixelFormat.Format32bppArgb:
+                case PixelFormat.Format32bppPArgb:
+                case PixelFormat.Format32bppRgb:
+                    len = 4;
+                    break;
+                case PixelFormat.Format48bppRgb:
+                case PixelFormat.Format64bppPArgb:
+                    len = 5;
+                    break;
+                default:
+                    throw new Exception("Unsupported pixel format");
+            }
+
+            index += x * len;
+
+            byte[] ret = new byte[len];
+            Array.Copy(Data, index, ret, 0, len);
+
+            return ret;
+        }
+
+        public void CreateGap(int start, int length, GapBehavior behavior = GapBehavior.Random)
+        {
+            Array.Copy(Data, (start + length), Data, start, Data.Length - (start + length));
+
+            switch (behavior)
+            {
+                case GapBehavior.Black:
+                    for (int i = Data.Length - length; i < Data.Length; i++)
+                        Data[i] = 0;
+                    
+                    break;
+                case GapBehavior.White:
+                    for (int i = Data.Length - length; i < Data.Length; i++)
+                        Data[i] = 255;
+
+                    break;
+                case GapBehavior.Random:
+                    byte[] rnd = new byte[length];
+                    Random.NextBytes(rnd);
+
+                    Array.Copy(rnd, 0, Data, Data.Length - length, length);
+                    break;
+            }
+        }
+    }
+
+    public enum GapBehavior
+    {
+        Black, White, Random, Gapped
     }
 }
 
