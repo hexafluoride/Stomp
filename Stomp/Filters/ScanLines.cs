@@ -7,6 +7,8 @@ namespace Stomp.Filters
 {
     public class ScanLines : IFilter
     {
+        public bool PreserveBrightness { get; set; }
+
         public ScanLines()
         {
         }
@@ -17,6 +19,31 @@ namespace Stomp.Filters
             {
                 for (int x = 0; x < bmp.Width; x++)
                     bmp.SetPixel(x, y, Color.Black);
+            }
+
+            if (PreserveBrightness)
+            {
+                for (int y = 1; y < bmp.Height; y += 2)
+                {
+                    for (int x = 0; x < bmp.Width; x++)
+                    {
+                        var clr = bmp.GetPixel(x, y);
+
+                        int r = clr.R;
+                        int g = clr.G;
+                        int b = clr.B;
+
+                        bmp.SetPixel(x, y, Color.FromArgb
+                            (
+                                Math.Min(r * 2, 255), 
+                                Math.Min(g * 2, 255), 
+                                Math.Min(b * 2, 255)
+                            ));
+
+                        // this is obviously not the optimal implementation
+                        // TODO: actually double the perceived brightness instead of half-assing it
+                    }
+                }
             }
         }
     }

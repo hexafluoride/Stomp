@@ -17,7 +17,7 @@ namespace Stomp
             Console.WriteLine("Opened test.jpg with size {0}({2})x{1}", bmp.Width, bmp.Height, bmp.Subwidth);
 
             Default.Append(
-                new ScanLines(),
+                new ScanLines() { PreserveBrightness = true },
                 new ChromaShift() { RedShift = -10, GreenShift = 10, BlueShift = 30 },
                 new RandomGaps() { GapCount = 30, RandomBehavior = true, MinGapLength = -100, MaxGapLength = 100 }
             );
