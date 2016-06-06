@@ -5,7 +5,7 @@ using Stomp.Filters;
 
 namespace Stomp
 {
-    class MainClassv
+    class MainClass
     {
         public static FilterChain Default = new FilterChain();
 
