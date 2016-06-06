@@ -41,6 +41,7 @@
     <Compile Include="Filters\ChromaShift.cs" />
     <Compile Include="Filters\ScanLines.cs" />
     <Compile Include="Filters\RandomGaps.cs" />
+    <Compile Include="FilterChain.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

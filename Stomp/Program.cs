@@ -1,5 +1,4 @@
 ﻿using System;
-
 using System.Drawing;
 
 using Stomp.Filters;
@@ -8,6 +7,8 @@ namespace Stomp
 {
     class MainClass
     {
+        public static FilterChain Default = new FilterChain();
+
         public static void Main(string[] args)
         {
             FastBitmap bmp = new FastBitmap("/home/hexafluoride/test.jpg");
@@ -15,14 +16,13 @@ namespace Stomp
 
             Console.WriteLine("Opened test.jpg with size {0}({2})x{1}", bmp.Width, bmp.Height, bmp.Subwidth);
 
-            ScanLines scan = new ScanLines();
-            scan.Apply(bmp);
+            Default.Append(
+                new ScanLines(),
+                new ChromaShift() { RedShift = -10, GreenShift = 10, BlueShift = 30 },
+                new RandomGaps() { GapCount = 30, RandomBehavior = true, MinGapLength = -100, MaxGapLength = 100 }
+            );
 
-            ChromaShift filter = new ChromaShift() { RedShift = -10, GreenShift = 10, BlueShift = 30 };
-            filter.Apply(bmp);
-
-            RandomGaps gaps = new RandomGaps() { GapCount = 30, RandomBehavior = true, MinGapLength = -100, MaxGapLength = 100 };
-            gaps.Apply(bmp);
+            Default.Apply(bmp);
 
             bmp.Save("/home/hexafluoride/gapped.jpg");
         }
