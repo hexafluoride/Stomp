@@ -145,19 +145,19 @@ namespace Stomp
                         int index = (y * Handle.Stride) + (x * 3); // 24bpp, 3 bytes
 
                         return Color.FromArgb(
-                            Data[index],
+                            Data[index + 2],
                             Data[index + 1],
-                            Data[index + 2]);
+                            Data[index]);
                     }
                 case PixelFormat.Format32bppArgb:
                     {
                         int index = (y * Handle.Stride) + (x * 3); // 32bpp, 4 bytes
 
                         return Color.FromArgb(
-                            Data[index],
-                            Data[index + 1],
+                            Data[index + 3],
                             Data[index + 2],
-                            Data[index + 3]);
+                            Data[index + 1],
+                            Data[index]);
                     }
                 default:
                     throw new Exception("Unsupported pixel format");
