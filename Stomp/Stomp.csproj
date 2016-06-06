@@ -43,6 +43,7 @@
     <Compile Include="Filters\RandomGaps.cs" />
     <Compile Include="FilterChain.cs" />
     <Compile Include="Filters\Saturation.cs" />
+    <Compile Include="Filters\BitDepth.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
