@@ -2,6 +2,8 @@
 
 using System.Drawing;
 
+using Stomp.Filters;
+
 namespace Stomp
 {
     class MainClass
@@ -13,10 +15,8 @@ namespace Stomp
 
             Console.WriteLine("Opened test.jpg with size {0}({2})x{1}", bmp.Width, bmp.Height, bmp.Subwidth);
 
-            for (int i = 0; i < bmp.Data.Length; i += 100000)
-            {
-                bmp.CreateGap(i, 10000, GapBehavior.Gapped);
-            }
+            ChromaShift filter = new ChromaShift() { RedShift = -10, GreenShift = 10, BlueShift = 30 };
+            filter.Apply(bmp);
 
             bmp.Save("/home/hexafluoride/gapped.jpg");
         }

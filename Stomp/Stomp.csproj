@@ -37,6 +37,11 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FastBitmap.cs" />
+    <Compile Include="IFilter.cs" />
+    <Compile Include="Filters\ChromaShift.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="Filters\" />
+  </ItemGroup>
 </Project>

@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Collections.Generic;
 
 namespace Stomp
 {
@@ -267,6 +268,146 @@ namespace Stomp
                 case GapBehavior.Gapped:
                     Array.Copy(gapped, 0, Data, Data.Length - length, length);
                     break;
+            }
+        }
+
+        public Dictionary<string, byte[]> SeparateChannels()
+        {
+            Dictionary<string, byte[]> ret = new Dictionary<string, byte[]>();
+
+            switch (InternalBitmap.PixelFormat)
+            {
+                case PixelFormat.Format24bppRgb:
+                    {
+                        byte[] r = new byte[Data.Length / 3];
+                        byte[] g = new byte[Data.Length / 3];
+                        byte[] b = new byte[Data.Length / 3];
+
+                        for (int y = 0; y < Height; y++)
+                        {
+                            for (int x = 0; x < Width; x++)
+                            {
+                                int index = (y * Width) + x;
+                                byte[] raw = GetRawBytes(x, y);
+
+                                b[index] = raw[0];
+                                g[index] = raw[1];
+                                r[index] = raw[2];
+                            }
+                        }
+
+                        ret.Add("R", r);
+                        ret.Add("G", g);
+                        ret.Add("B", b);
+
+                        return ret;
+                    }
+                case PixelFormat.Format32bppArgb:
+                    {
+                        byte[] a = new byte[Data.Length / 4];
+                        byte[] r = new byte[Data.Length / 4];
+                        byte[] g = new byte[Data.Length / 4];
+                        byte[] b = new byte[Data.Length / 4];
+
+                        for (int y = 0; y < Height; y++)
+                        {
+                            for (int x = 0; x < Width; x++)
+                            {
+                                int index = (y * Width) + x;
+                                byte[] raw = GetRawBytes(x, y);
+
+                                b[index] = raw[0];
+                                g[index] = raw[1];
+                                r[index] = raw[2];
+                                a[index] = raw[3];
+                            }
+                        }
+
+                        ret.Add("R", r);
+                        ret.Add("G", g);
+                        ret.Add("B", b);
+                        ret.Add("A", a);
+
+                        return ret;
+                    }
+                default:
+                    throw new Exception("Unsupported pixel format");
+            }
+        }
+
+        public void WriteChannels(Dictionary<string, byte[]> channels)
+        {
+            switch (InternalBitmap.PixelFormat)
+            {
+                case PixelFormat.Format24bppRgb:
+                    {
+                        for (int c = 0; c < 3; c++)
+                        {
+                            string id = "";
+
+                            switch (c)
+                            {
+                                case 0:
+                                    id = "B";
+                                    break;
+                                case 1:
+                                    id = "G";
+                                    break;
+                                case 2:
+                                    id = "R";
+                                    break;
+                            }
+
+                            if (!channels.ContainsKey(id))
+                                continue;
+                            
+                            var channel = channels[id];
+
+                            for (int i = 0; i < channel.Length; i++)
+                            {
+                                Data[(i * 3) + c] = channel[i];
+                            }
+                        }
+
+                        break;
+                    }
+                case PixelFormat.Format32bppArgb:
+                    {
+                        for (int c = 0; c < 4; c++)
+                        {
+                            string id = "";
+
+                            switch (c)
+                            {
+                                case 0:
+                                    id = "B";
+                                    break;
+                                case 1:
+                                    id = "G";
+                                    break;
+                                case 2:
+                                    id = "R";
+                                    break;
+                                case 3:
+                                    id = "A";
+                                    break;
+                            }
+
+                            if (!channels.ContainsKey(id))
+                                continue;
+                            
+                            var channel = channels[id];
+
+                            for (int i = 0; i < channel.Length; i++)
+                            {
+                                Data[(i * 4) + c] = channel[i];
+                            }
+                        }
+
+                        break;
+                    }
+                default:
+                    throw new Exception("Unsupported pixel format");
             }
         }
     }
