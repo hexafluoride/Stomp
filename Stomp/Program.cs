@@ -19,7 +19,8 @@ namespace Stomp
             Default.Append(
                 new ScanLines() { PreserveBrightness = true },
                 new ChromaShift() { RedShift = -10, GreenShift = 10, BlueShift = 30 },
-                new RandomGaps() { GapCount = 30, RandomBehavior = true, MinGapLength = -100, MaxGapLength = 100 }
+                new RandomGaps() { GapCount = 30, RandomBehavior = true, MinGapLength = -100, MaxGapLength = 100 },
+                new Saturation() { Intensity = 2 }
             );
 
             Default.Apply(bmp);
