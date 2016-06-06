@@ -241,6 +241,9 @@ namespace Stomp
 
         public void CreateGap(int start, int length, GapBehavior behavior = GapBehavior.Random)
         {
+            byte[] gapped = new byte[length];
+
+            Array.Copy(Data, start, gapped, 0, length);
             Array.Copy(Data, (start + length), Data, start, Data.Length - (start + length));
 
             switch (behavior)
@@ -260,6 +263,9 @@ namespace Stomp
                     Random.NextBytes(rnd);
 
                     Array.Copy(rnd, 0, Data, Data.Length - length, length);
+                    break;
+                case GapBehavior.Gapped:
+                    Array.Copy(gapped, 0, Data, Data.Length - length, length);
                     break;
             }
         }

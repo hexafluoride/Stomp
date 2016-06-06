@@ -15,7 +15,7 @@ namespace Stomp
 
             for (int i = 0; i < bmp.Data.Length; i += 100000)
             {
-                bmp.CreateGap(i, 10);
+                bmp.CreateGap(i, 10000, GapBehavior.Gapped);
             }
 
             bmp.Save("/home/hexafluoride/gapped.jpg");
