@@ -21,10 +21,8 @@ namespace Stomp
             ChromaShift filter = new ChromaShift() { RedShift = -10, GreenShift = 10, BlueShift = 30 };
             filter.Apply(bmp);
 
-            for (int i = 0; i < bmp.Data.Length; i += 100000)
-            {
-                bmp.CreateGap(i, 10000, GapBehavior.Gapped);
-            }
+            RandomGaps gaps = new RandomGaps() { GapCount = 30, RandomBehavior = true, MinGapLength = 10, MaxGapLength = 100 };
+            gaps.Apply(bmp);
 
             bmp.Save("/home/hexafluoride/gapped.jpg");
         }
