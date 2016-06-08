@@ -160,7 +160,7 @@ namespace Stomp
                     }
                 case PixelFormat.Format32bppArgb:
                     {
-                        int index = (y * Handle.Stride) + (x * 3); // 32bpp, 4 bytes
+                        int index = (y * Handle.Stride) + (x * 4); // 32bpp, 4 bytes
 
                         return Color.FromArgb(
                             Data[index + 3],
@@ -191,10 +191,10 @@ namespace Stomp
                     {
                         int index = (y * Handle.Stride) + (x * 3); // 32bpp, 4 bytes
 
-                        Data[index] = clr.B;
-                        Data[index + 1] = clr.G;
-                        Data[index + 2] = clr.R;
-                        Data[index + 3] = clr.A;
+                        Data[index] = clr.A;
+                        Data[index + 1] = clr.B;
+                        Data[index + 2] = clr.G;
+                        Data[index + 3] = clr.R;
 
                         break;
                     }
