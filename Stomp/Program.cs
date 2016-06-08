@@ -3,6 +3,7 @@ using System.Drawing;
 using System.IO;
 
 using Stomp.Filters;
+using Stomp.Filters.Contexts;
 
 namespace Stomp
 {
@@ -18,11 +19,17 @@ namespace Stomp
             Console.WriteLine("Opened {0} with size {1}({3})x{2}", Path.GetFileName(args[0]), bmp.Width, bmp.Height, bmp.Subwidth);
 
             Default.Append(
-                new BitDepth() { BitsPerChannel = 3 },
-                new ScanLines() { PreserveBrightness = true },
-                new ChromaShift() { RedShift = -10, GreenShift = 10, BlueShift = 30 },
-                new RandomGaps() { GapCount = 30, RandomBehavior = true, MinGapLength = -100, MaxGapLength = 100 },
-                new Saturation() { Intensity = 2 }
+                new PngFiltered(new FilterChain(
+                    new RandomBytes() { Rate = 0.0002 }
+                )) { Behavior = FilterTypeGen.Constant, ConstantType = FilterType.Sub },
+
+                new PngFiltered(new FilterChain(
+                    new RandomBytes() { Rate = 0.0001 }
+                )) { Behavior = FilterTypeGen.Constant, ConstantType = FilterType.Average },
+
+                new PngFiltered(new FilterChain(
+                    new RandomBytes() { Rate = 0.00001 }
+                )) { Behavior = FilterTypeGen.Random }
             );
 
             Default.Apply(bmp);

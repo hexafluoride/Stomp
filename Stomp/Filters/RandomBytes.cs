@@ -6,7 +6,7 @@ namespace Stomp.Filters
 {
     public class RandomBytes : IFilter
     {
-        public double Ratio { get; set; } 
+        public double Rate { get; set; } 
         public RandomBytes()
         {
         }
@@ -14,7 +14,7 @@ namespace Stomp.Filters
         public void Apply(FastBitmap bmp)
         {
             Random rnd = new Random();
-            int amount = (int)(bmp.Data.Length * Ratio);
+            int amount = (int)(bmp.Data.Length * Rate);
 
             while (amount-- > 0)
             {
