@@ -196,10 +196,10 @@ namespace Stomp
                     {
                         int index = (y * Handle.Stride) + (x * 3); // 32bpp, 4 bytes
 
-                        Data[index] = clr.A;
-                        Data[index + 1] = clr.B;
-                        Data[index + 2] = clr.G;
-                        Data[index + 3] = clr.R;
+                        Data[index] = clr.B;
+                        Data[index + 1] = clr.G;
+                        Data[index + 2] = clr.R;
+                        Data[index + 3] = clr.A;
 
                         break;
                     }
@@ -230,8 +230,10 @@ namespace Stomp
                     len = 4;
                     break;
                 case PixelFormat.Format48bppRgb:
+                    len = 6;
+                    break;
                 case PixelFormat.Format64bppPArgb:
-                    len = 5;
+                    len = 8;
                     break;
                 default:
                     throw new Exception("Unsupported pixel format");
