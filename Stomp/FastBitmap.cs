@@ -433,6 +433,86 @@ namespace Stomp
         }
     }
 
+    public static class ColorHelpers
+    {
+        public static Color Add(Color first, Color second)
+        {
+            return SafeRgb(
+                first.R + second.R,
+                first.G + second.G,
+                first.B + second.B, true);
+        }
+
+        public static Color OverflowingAdd(Color first, Color second)
+        {
+            byte r = (byte)(first.R + second.R);
+            byte g = (byte)(first.G + second.G);
+            byte b = (byte)(first.B + second.B);
+
+            return Color.FromArgb(r, g, b);
+        }
+
+        public static Color Delta(Color first, Color second)
+        {
+            byte r = (byte)(first.R - second.R);
+            byte g = (byte)(first.G - second.G);
+            byte b = (byte)(first.B - second.B);
+
+            return Color.FromArgb(r, g, b);
+        }
+
+        public static Color Average(Color first, Color second)
+        {
+            return SafeRgb(
+                (first.R + second.R) / 2,
+                (first.G + second.G) / 2,
+                (first.B + second.B) / 2, true);
+        }
+
+        public static Color PickPaeth(Color left, Color up, Color diagonal)
+        {
+            int p_r = left.R + up.R - diagonal.R;
+            int p_g = left.G + up.G - diagonal.G;
+            int p_b = left.B + up.B - diagonal.B;
+
+            return SafeRgb(
+                MinDelta(left.R, up.R, diagonal.R, p_r),
+                MinDelta(left.G, up.G, diagonal.G, p_g),
+                MinDelta(left.B, up.B, diagonal.B, p_b), true);
+        }
+
+        public static Color SafeRgb(int r, int g, int b, bool modulo = false)
+        {
+            if (modulo)
+            {
+                r = Math.Abs(r % 256);
+                g = Math.Abs(g % 256);
+                b = Math.Abs(b % 256);
+            }
+            else
+            {
+                r = Math.Min(Math.Max(0, r), 255);
+                g = Math.Min(Math.Max(0, g), 255);
+                b = Math.Min(Math.Max(0, b), 255);
+            }
+
+            return Color.FromArgb(r, g, b);
+        }
+
+        public static int MinDelta(int x, int y, int z, int t)
+        {
+            return Min(
+                Math.Abs(x - t), 
+                Math.Abs(y - t), 
+                Math.Abs(z - t));
+        }
+
+        public static int Min(int x, int y, int z)
+        {
+            return Math.Min(x, Math.Min(y, z));
+        }
+    }
+
     public enum GapBehavior
     {
         Black, White, Random, Gapped
