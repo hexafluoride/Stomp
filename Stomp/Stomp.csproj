@@ -19,6 +19,7 @@
     <WarningLevel>4</WarningLevel>
     <Externalconsole>true</Externalconsole>
     <PlatformTarget>x86</PlatformTarget>
+    <Commandlineparameters>/home/hexafluoride/test.png</Commandlineparameters>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>full</DebugType>
@@ -44,9 +45,13 @@
     <Compile Include="FilterChain.cs" />
     <Compile Include="Filters\Saturation.cs" />
     <Compile Include="Filters\BitDepth.cs" />
+    <Compile Include="PngFilter.cs" />
+    <Compile Include="Filters\Contexts\PngFiltered.cs" />
+    <Compile Include="Filters\RandomBytes.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Filters\" />
+    <Folder Include="Filters\Contexts\" />
   </ItemGroup>
 </Project>
