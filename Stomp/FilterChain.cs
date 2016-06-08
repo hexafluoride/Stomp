@@ -13,6 +13,11 @@ namespace Stomp
         {
         }
 
+        public FilterChain(params IFilter[] filters)
+        {
+            Append(filters);
+        }
+
         public void Apply(FastBitmap bmp)
         {
             foreach (var filter in Filters)
