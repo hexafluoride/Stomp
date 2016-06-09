@@ -47,7 +47,7 @@ namespace Stomp
                     filter.Apply(bmp);
                     sw.Stop();
 
-                    PrintMessage('+', "Filtered in {0:0.00} seconds.", sw.ElapsedMilliseconds / 1000d);
+                    PrintMessage('+', "Executed filter {0} in {1:0.00} seconds.", filter.ScriptName, sw.ElapsedMilliseconds / 1000d);
                 }
             }
             Indent -= 2;
