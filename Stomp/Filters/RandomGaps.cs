@@ -7,6 +7,12 @@ namespace Stomp.Filters
 {
     public class RandomGaps : IFilter
     {
+        public bool IsContext { get { return false; } }
+        public string HumanName { get { return "random gaps"; } }
+        public string ScriptName { get { return "random-gaps"; } }
+
+        public event FilterMessageHandler OnMessage;
+
         public int GapCount { get; set; }
 
         public int MinGapLength { get; set; }
@@ -39,6 +45,12 @@ namespace Stomp.Filters
 
                 bmp.CreateGap(gap.Key, gap.Value, Behavior);
             }
+        }
+
+        public void SendMessage(string str, params object[] format)
+        {
+            if (OnMessage != null)
+                OnMessage(string.Format(str, format), this);
         }
     }
 }

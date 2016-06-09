@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Linq;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 using Stomp;
 using Stomp.Filters;
@@ -10,6 +11,12 @@ namespace Stomp.Filters.Contexts
 {
     public class PngFiltered : IFilter
     {
+        public bool IsContext { get { return true; } }
+        public string HumanName { get { return "PNG filter"; } }
+        public string ScriptName { get { return "png-filter-context"; } }
+
+        public event FilterMessageHandler OnMessage;
+
         public FilterChain Chain;
         public FilterTypeGen Behavior { get; set; }
 
@@ -77,11 +84,25 @@ namespace Stomp.Filters.Contexts
         public void Apply(FastBitmap bmp)
         {
             var filters = GenerateFilterArray(bmp);
+
+            Stopwatch sw = Stopwatch.StartNew();
             var filtered = PngFilter.Encode(bmp, filters);
+            SendMessage("Encoded in {0} seconds", sw.ElapsedMilliseconds / 1000d);
 
             Chain.Apply(filtered);
 
+            sw.Restart();
+
             PngFilter.Decode(filtered, filters, bmp);
+            SendMessage("Decoded in {0} seconds", sw.ElapsedMilliseconds / 1000d);
+
+            sw.Stop();
+        }
+
+        public void SendMessage(string str, params object[] format)
+        {
+            if (OnMessage != null)
+                OnMessage(string.Format(str, format), this);
         }
     }
 

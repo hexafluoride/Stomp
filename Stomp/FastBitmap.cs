@@ -478,9 +478,9 @@ namespace Stomp
             int p_b = left.B + up.B - diagonal.B;
 
             return SafeRgb(
-                MinDelta(left.R, up.R, diagonal.R, p_r),
-                MinDelta(left.G, up.G, diagonal.G, p_g),
-                MinDelta(left.B, up.B, diagonal.B, p_b), true);
+                MinDelta(left.R, up.R, diagonal.R, p_r) + p_r,
+                MinDelta(left.G, up.G, diagonal.G, p_g) + p_g,
+                MinDelta(left.B, up.B, diagonal.B, p_b) + p_b, true);
         }
 
         public static Color SafeRgb(int r, int g, int b, bool modulo = false)
@@ -501,12 +501,12 @@ namespace Stomp
             return Color.FromArgb(r, g, b);
         }
 
-        public static int MinDelta(int x, int y, int z, int t)
+        public static byte MinDelta(int x, int y, int z, int t)
         {
-            return Min(
-                Math.Abs(x - t), 
-                Math.Abs(y - t), 
-                Math.Abs(z - t));
+            return (byte)Min(
+                Math.Abs((byte)(x - t)), 
+                Math.Abs((byte)(y - t)), 
+                Math.Abs((byte)(z - t)));
         }
 
         public static int Min(int x, int y, int z)
@@ -514,6 +514,8 @@ namespace Stomp
             return Math.Min(x, Math.Min(y, z));
         }
     }
+
+
 
     public enum GapBehavior
     {

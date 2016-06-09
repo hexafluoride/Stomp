@@ -7,6 +7,12 @@ namespace Stomp.Filters
 {
     public class ScanLines : IFilter
     {
+        public bool IsContext { get { return false; } }
+        public string HumanName { get { return "scan lines"; } }
+        public string ScriptName { get { return "scanlines"; } }
+
+        public event FilterMessageHandler OnMessage;
+
         public bool PreserveBrightness { get; set; }
 
         public ScanLines()
@@ -45,6 +51,12 @@ namespace Stomp.Filters
                     }
                 }
             }
+        }
+
+        public void SendMessage(string str, params object[] format)
+        {
+            if (OnMessage != null)
+                OnMessage(string.Format(str, format), this);
         }
     }
 }

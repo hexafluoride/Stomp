@@ -7,6 +7,12 @@ namespace Stomp.Filters
 {
     public class ChromaShift : IFilter
     {
+        public bool IsContext { get { return false; } }
+        public string HumanName { get { return "chroma shifter"; } }
+        public string ScriptName { get { return "chroma-shift"; } }
+
+        public event FilterMessageHandler OnMessage;
+
         public int RedShift { get; set; }
         public int GreenShift { get; set; }
         public int BlueShift { get; set; }
@@ -59,6 +65,12 @@ namespace Stomp.Filters
                 Buffer.BlockCopy(array, 0, temp, array.Length - offset, offset);
                 Buffer.BlockCopy(temp, 0, array, 0, array.Length);
             }
+        }
+
+        public void SendMessage(string str, params object[] format)
+        {
+            if (OnMessage != null)
+                OnMessage(string.Format(str, format), this);
         }
     }
 }

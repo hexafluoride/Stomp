@@ -7,6 +7,12 @@ namespace Stomp.Filters
 {
     public class Saturation : IFilter
     {
+        public bool IsContext { get { return false; } }
+        public string HumanName { get { return "saturation"; } }
+        public string ScriptName { get { return "saturate"; } }
+
+        public event FilterMessageHandler OnMessage;
+
         public double Intensity { get; set; }
 
         public Saturation()
@@ -41,6 +47,12 @@ namespace Stomp.Filters
             {
                 return (int)Math.Min(255, color + ((color * intensity) / 2));
             }
+        }
+
+        public void SendMessage(string str, params object[] format)
+        {
+            if (OnMessage != null)
+                OnMessage(string.Format(str, format), this);
         }
     }
 }

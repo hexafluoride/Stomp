@@ -6,6 +6,12 @@ namespace Stomp.Filters
 {
     public class RandomBytes : IFilter
     {
+        public bool IsContext { get { return false; } }
+        public string HumanName { get { return "random bytes"; } }
+        public string ScriptName { get { return "random-bytes"; } }
+
+        public event FilterMessageHandler OnMessage;
+
         public double Rate { get; set; } 
         public RandomBytes()
         {
@@ -20,6 +26,12 @@ namespace Stomp.Filters
             {
                 bmp.Data[rnd.Next(bmp.Data.Length)] = (byte)rnd.Next(256);
             }
+        }
+
+        public void SendMessage(string str, params object[] format)
+        {
+            if (OnMessage != null)
+                OnMessage(string.Format(str, format), this);
         }
     }
 }

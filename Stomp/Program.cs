@@ -20,15 +20,7 @@ namespace Stomp
 
             Default.Append(
                 new PngFiltered(new FilterChain(
-                    new RandomBytes() { Rate = 0.0002 }
-                )) { Behavior = FilterTypeGen.Constant, ConstantType = FilterType.Sub },
-
-                new PngFiltered(new FilterChain(
-                    new RandomBytes() { Rate = 0.0001 }
-                )) { Behavior = FilterTypeGen.Constant, ConstantType = FilterType.Average },
-
-                new PngFiltered(new FilterChain(
-                    new RandomBytes() { Rate = 0.00001 }
+                    new RandomBytes() { Rate = 0.000001 }
                 )) { Behavior = FilterTypeGen.Random }
             );
 
