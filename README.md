@@ -6,6 +6,17 @@ This is not really release-ready software, so don't expect user friendliness.
 [![comparison preview](https://raw.githubusercontent.com/hexafluoride/Stomp/master/comparison-small.jpg)](https://raw.githubusercontent.com/hexafluoride/Stomp/master/comparison.png)
 click to see full size
 
+## Building Stomp
+Either run
+```
+xbuild
+```
+or
+```
+mdtool build
+```
+at the repo root. Output binary will be located at Stomp/bin/<Config>/Stomp.exe where <Config> is the build configuration(Debug or Release, Debug by default).
+
 ## Running Stomp
 ```
 ./Stomp.exe image.png
