@@ -44,6 +44,21 @@ namespace Stomp
         public FastBitmap(string path)
         {
             InternalBitmap = new Bitmap(path);
+
+            if (InternalBitmap.PixelFormat == PixelFormat.Format32bppArgb)
+            {
+                var temp = new Bitmap(InternalBitmap.Width, InternalBitmap.Height, PixelFormat.Format24bppRgb);
+
+                for (int x = 0; x < InternalBitmap.Width; x++)
+                {
+                    for (int y = 0; y < InternalBitmap.Height; y++)
+                    {
+                        temp.SetPixel(x, y, InternalBitmap.GetPixel(x, y));
+                    }
+                }
+
+                InternalBitmap = temp;
+            }
         }
 
         public FastBitmap(int width, int height)
