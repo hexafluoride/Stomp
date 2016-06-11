@@ -22,7 +22,7 @@ at the repo root. Output binary will be located at Stomp/bin/`<Config>`/Stomp.ex
 ./Stomp.exe image.png <filter-file>
 ```
 
-filter-file is the file containing the filter script. A default filter named "default-filter" is already included, and can be used for testing purposes.
+filter-file is the file containing the filter script. View the bundled filter scripts [here](https://github.com/hexafluoride/Stomp/blob/master/included-chains.md), or [learn](#the-scripted-way) to write your own.
 
 ## Writing filter chains
 ### The hard-coded way:
