@@ -1,0 +1,17 @@
+bit-depth {
+	bits-per-channel = 5
+}
+chroma-shift {
+	red-shift = -10
+	green-shift = 10
+	blue-shift = 30
+}
+random-gaps {
+	gap-count = 25
+	gap-behavior = random
+	min-gap-length = -50
+	max-gap-length = 50
+}
+saturate {
+	intensity = 1
+}
