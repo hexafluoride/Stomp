@@ -101,7 +101,7 @@ chroma-shift {
 }
 random-gaps {
       gap-count = 30
-      behavior = random
+      gap-behavior = random
       min-gap-length = -100
       max-gap-length = 100
 }
