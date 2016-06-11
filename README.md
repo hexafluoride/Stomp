@@ -3,7 +3,7 @@ Experimental image glitcher in C#.
 
 This is not really release-ready software, so don't expect user friendliness.
 
-[![comparison preview](https://raw.githubusercontent.com/hexafluoride/Stomp/master/comparison-small.jpg)](https://raw.githubusercontent.com/hexafluoride/Stomp/master/comparison.png)
+[![comparison preview](https://raw.githubusercontent.com/hexafluoride/Stomp/master/misc/comparison-small.jpg)](https://raw.githubusercontent.com/hexafluoride/Stomp/master/misc/comparison.png)
 click to see full size
 
 ## Building Stomp
