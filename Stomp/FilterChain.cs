@@ -66,7 +66,12 @@ namespace Stomp
 
         public void Append(params IFilter[] filters)
         {
-            foreach(var filter in filters)
+            AppendRange(filters);
+        }
+
+        public void AppendRange(IEnumerable<IFilter> filters)
+        {
+            foreach (var filter in filters)
                 Filters.Add(filter);
         }
     }
