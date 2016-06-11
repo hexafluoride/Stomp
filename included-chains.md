@@ -13,7 +13,7 @@ Output:
 ![default-filter output](https://raw.githubusercontent.com/hexafluoride/Stomp/master/misc/default.png)
 
 ## fake-glitches
-fake-glitches is, as its name suggests, mostly not "real" datamoshing, but instead applies a bunch of deterministic algorithms and a random-gaps filter for variety.
+fake-glitches is, as its name suggests, mostly not "real" datamoshing, but instead it applies a bunch of deterministic algorithms and a random-gaps filter for variety.
 
 Output:
 
