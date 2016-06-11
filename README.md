@@ -117,6 +117,8 @@ png-filter-context {
 }
 ```
 
+The script aliases of the names and properties are denoted with a ScriptAlias attribute before each property in the implementations. Check the source files out if you want to know what name to use for a filter property inside a script.
+
 ## Contexts?!?!
 You may have noticed something interesting going on in the above example. The last filter in that chain is a `PngFiltered` filter, which takes another `FilterChain` in its constructor. What?
 
