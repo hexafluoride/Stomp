@@ -130,6 +130,11 @@ namespace Stomp
             if (node.Content.EndsWith("-context"))
                 return ParseContext(node);
 
+            if (!Types.ContainsKey(node.Content))
+            {
+                Console.WriteLine("Key {0} not found.", node.Content);
+                return null;
+            }
             var type = Types[node.Content];
             var filter = Activator.CreateInstance(type);
 
