@@ -17,12 +17,17 @@ namespace Stomp.Filters.Contexts
 
         public event FilterMessageHandler OnMessage;
 
-        public FilterChain Chain;
+        [ScriptAlias("inner-chain")]
+        public FilterChain Chain { get; set; }
+        [ScriptAlias("png-filter-gen")]
         public FilterTypeGen Behavior { get; set; }
 
+        [ScriptAlias("constant-filter")]
         public FilterType ConstantType { get; set; }
 
+        [ScriptAlias("run-length-max")]
         public int RunLengthMax { get; set; }
+        [ScriptAlias("run-length-min")]
         public int RunLengthMin { get; set; }
 
         public Dictionary<FilterType, int> WeighedList = new Dictionary<FilterType, int>()
@@ -32,6 +37,10 @@ namespace Stomp.Filters.Contexts
             {FilterType.Sub, 5},
             {FilterType.Up, 5}
         };
+
+        public PngFiltered()
+        {
+        }
 
         public PngFiltered(FilterChain chain)
         {
@@ -87,14 +96,14 @@ namespace Stomp.Filters.Contexts
 
             Stopwatch sw = Stopwatch.StartNew();
             var filtered = PngFilter.Encode(bmp, filters);
-            SendMessage("Encoded in {0} seconds", sw.ElapsedMilliseconds / 1000d);
+            SendMessage("Encoded in {0} seconds.", sw.ElapsedMilliseconds / 1000d);
 
             Chain.Apply(filtered);
 
             sw.Restart();
 
             PngFilter.Decode(filtered, filters, bmp);
-            SendMessage("Decoded in {0} seconds", sw.ElapsedMilliseconds / 1000d);
+            SendMessage("Decoded in {0} seconds.", sw.ElapsedMilliseconds / 1000d);
 
             sw.Stop();
         }

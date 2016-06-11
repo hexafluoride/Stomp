@@ -13,6 +13,7 @@ namespace Stomp.Filters
 
         public event FilterMessageHandler OnMessage;
 
+        [ScriptAlias("preserve-brightness")]
         public bool PreserveBrightness { get; set; }
 
         public ScanLines()

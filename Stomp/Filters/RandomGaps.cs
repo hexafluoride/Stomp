@@ -11,13 +11,19 @@ namespace Stomp.Filters
         public string HumanName { get { return "random gaps"; } }
         public string ScriptName { get { return "random-gaps"; } }
 
+        public static Random Random = new Random();
+
         public event FilterMessageHandler OnMessage;
 
+        [ScriptAlias("gap-count")]
         public int GapCount { get; set; }
 
+        [ScriptAlias("min-gap-length")]
         public int MinGapLength { get; set; }
+        [ScriptAlias("max-gap-length")]
         public int MaxGapLength { get; set; }
 
+        [ScriptAlias("gap-behavior")]
         public GapBehavior Behavior { get; set; }
 
         public RandomGaps()

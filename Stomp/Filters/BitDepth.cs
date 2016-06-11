@@ -13,6 +13,7 @@ namespace Stomp.Filters
 
         public event FilterMessageHandler OnMessage;
 
+        [ScriptAlias("bits-per-channel")]
         public int BitsPerChannel { get; set; }
 
         public BitDepth()

@@ -18,11 +18,34 @@ namespace Stomp
 
             Console.WriteLine("Opened {0} with size {1}({3})x{2}", Path.GetFileName(args[0]), bmp.Width, bmp.Height, bmp.Subwidth);
 
-            Default.Append(
-                new PngFiltered(new FilterChain(
-                    new RandomBytes() { Rate = 0.000001 }
-                )) { Behavior = FilterTypeGen.Random }
-            );
+            ScriptEngine script = new ScriptEngine();
+            script.Register(new RandomGaps());
+            script.Register(new BitDepth());
+            script.Register(new ChromaShift());
+            script.Register(new RandomBytes());
+            script.Register(new Saturation());
+            script.Register(new ScanLines());
+            script.Register(new PngFiltered());
+
+            Default = script.Parse(
+@"png-filter-context {
+    random-bytes {
+        rate = 0.0001
+    }
+    random-gaps {
+        gap-count = 30
+        min-gap-length = -10
+        max-gap-length = 10
+        gap-behavior = random
+    }
+    png-filter-gen = constant
+    constant-filter = paeth
+}
+chroma-shift {
+    red-shift = -10
+    green-shift = 10
+    blue-shift = 30
+}");
 
             Default.Apply(bmp);
 

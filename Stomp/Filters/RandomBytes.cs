@@ -12,7 +12,9 @@ namespace Stomp.Filters
 
         public event FilterMessageHandler OnMessage;
 
+        [ScriptAlias("rate")]
         public double Rate { get; set; } 
+
         public RandomBytes()
         {
         }

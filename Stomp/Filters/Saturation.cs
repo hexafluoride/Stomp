@@ -13,6 +13,7 @@ namespace Stomp.Filters
 
         public event FilterMessageHandler OnMessage;
 
+        [ScriptAlias("intensity")]
         public double Intensity { get; set; }
 
         public Saturation()

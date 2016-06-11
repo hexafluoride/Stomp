@@ -13,8 +13,11 @@ namespace Stomp.Filters
 
         public event FilterMessageHandler OnMessage;
 
+        [ScriptAlias("red-shift")]
         public int RedShift { get; set; }
+        [ScriptAlias("green-shift")]
         public int GreenShift { get; set; }
+        [ScriptAlias("blue-shift")]
         public int BlueShift { get; set; }
 
         public ChromaShift()
