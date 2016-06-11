@@ -19,10 +19,10 @@ at the repo root. Output binary will be located at Stomp/bin/`<Config>`/Stomp.ex
 
 ## Running Stomp
 ```
-./Stomp.exe image.png
+./Stomp.exe image.png <filter-file>
 ```
 
-It's that simple(for now).
+filter-file is the file containing the filter script. A default filter named "default-filter" is already included, and can be used for testing purposes.
 
 ## Writing filter chains
 ### The hard-coded way:
@@ -101,7 +101,7 @@ chroma-shift {
 }
 random-gaps {
       gap-count = 30
-      behavior = random
+      gap-behavior = random
       min-gap-length = -100
       max-gap-length = 100
 }
