@@ -247,53 +247,6 @@ namespace Stomp
             return ret;
         }
 
-        public void CreateGap(int start, int length, GapBehavior behavior = GapBehavior.Random)
-        {
-            byte[] gapped = new byte[Math.Abs(length)];
-
-            int gap_pos = 0;
-
-            if (length > 0)
-            {
-                Array.Copy(Data, start, gapped, 0, length);
-                Array.Copy(Data, (start + length), Data, start, Data.Length - (start + length));
-
-                gap_pos = Data.Length - length;
-            }
-            else
-            {
-                length = Math.Abs(length);
-
-                Buffer.BlockCopy(Data, Data.Length - start, gapped, 0, length);
-                Buffer.BlockCopy(Data, start, Data, (start + length), Data.Length - (start + length));
-
-                gap_pos = start;
-            }
-
-            switch (behavior)
-            {
-                case GapBehavior.Black:
-                    for (int i = gap_pos; i < gap_pos + length; i++)
-                        Data[i] = 0;
-                    
-                    break;
-                case GapBehavior.White:
-                    for (int i = gap_pos; i < gap_pos + length; i++)
-                        Data[i] = 255;
-
-                    break;
-                case GapBehavior.Random:
-                    byte[] rnd = new byte[length];
-                    Random.NextBytes(rnd);
-
-                    Array.Copy(rnd, 0, Data, gap_pos, length);
-                    break;
-                case GapBehavior.Gapped:
-                    Array.Copy(gapped, 0, Data, gap_pos, length);
-                    break;
-            }
-        }
-
         public Dictionary<string, byte[]> SeparateChannels()
         {
             Dictionary<string, byte[]> ret = new Dictionary<string, byte[]>();
@@ -513,13 +466,6 @@ namespace Stomp
         {
             return Math.Min(x, Math.Min(y, z));
         }
-    }
-
-
-
-    public enum GapBehavior
-    {
-        Black, White, Random, Gapped
     }
 }
 
