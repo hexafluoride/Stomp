@@ -19,7 +19,7 @@
     <WarningLevel>4</WarningLevel>
     <Externalconsole>true</Externalconsole>
     <PlatformTarget>x86</PlatformTarget>
-    <Commandlineparameters>/home/hexafluoride/test.png</Commandlineparameters>
+    <Commandlineparameters>/home/hexafluoride/test.png default-filter</Commandlineparameters>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>full</DebugType>
@@ -55,5 +55,10 @@
   <ItemGroup>
     <Folder Include="Filters\" />
     <Folder Include="Filters\Contexts\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="default-filter">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 </Project>

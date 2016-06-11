@@ -27,25 +27,7 @@ namespace Stomp
             script.Register(new ScanLines());
             script.Register(new PngFiltered());
 
-            Default = script.Parse(
-@"png-filter-context {
-    random-bytes {
-        rate = 0.0001
-    }
-    random-gaps {
-        gap-count = 30
-        min-gap-length = -10
-        max-gap-length = 10
-        gap-behavior = random
-    }
-    png-filter-gen = constant
-    constant-filter = paeth
-}
-chroma-shift {
-    red-shift = -10
-    green-shift = 10
-    blue-shift = 30
-}");
+            Default = script.Parse(File.ReadAllText(args[1]));
 
             Default.Apply(bmp);
 

@@ -40,18 +40,6 @@ namespace Stomp
                         continue;
                 }
 
-                switch (scope)
-                {
-                    case 0:
-                        Console.ForegroundColor = ConsoleColor.Black;
-                        break;
-                    case 1:
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        break;
-                    case 2:
-                        Console.ForegroundColor = ConsoleColor.Green;
-                        break;
-                }
                 // Console.WriteLine("Scope {0}: {1}", scope, line.Replace("{", ":"));
                 lines.Add(new KeyValuePair<int, string>(scope, line.Replace("{", "").Trim()));
 
@@ -79,11 +67,6 @@ namespace Stomp
                 scopes[line.Key] = current_node;
                 current_node.Parent.Children.Add(current_node);
                 last_scope = line.Key;
-            }
-
-            foreach (var node in scopes[0].Children)
-            {
-                Console.WriteLine(node.Content);
             }
 
             return ParseFilterChain(scopes[0]);
@@ -186,7 +169,7 @@ namespace Stomp
                     {
                         if (((ScriptAliasAttribute)attribs.First()).Name == alias)
                         {
-                            Console.WriteLine("Alias match: {0}", alias);
+                            //Console.WriteLine("Alias match: {0}", alias);
                             return true;
                         }
                     }

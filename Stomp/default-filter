@@ -1,0 +1,7 @@
+png-filter-context {
+	random-bytes {
+		rate = 0.0001
+	}
+	png-filter-gen = constant
+	constant-filter = paeth
+}

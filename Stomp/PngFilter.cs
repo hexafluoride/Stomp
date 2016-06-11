@@ -104,7 +104,7 @@ namespace Stomp
             for (int x = 0; x < input.Width; x++)
                 output.SetPixel(x, 0, input.GetPixel(x, 0));
 
-            Parallel.For(1, input.Height, y =>
+            for(int y = 1; y < input.Height; y++)
             {
                 FilterType type = filters[y];
 
@@ -174,7 +174,7 @@ namespace Stomp
                     default:
                         throw new Exception("This should never ever happen");
                 }
-            });
+            }
 
             return output;
         }
