@@ -15,7 +15,7 @@ or
 ```
 mdtool build
 ```
-at the repo root. Output binary will be located at Stomp/bin/<Config>/Stomp.exe where <Config> is the build configuration(Debug or Release, Debug by default).
+at the repo root. Output binary will be located at Stomp/bin/`<Config>`/Stomp.exe where `<Config>` is the build configuration(Debug or Release, Debug by default).
 
 ## Running Stomp
 ```
