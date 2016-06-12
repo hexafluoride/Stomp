@@ -41,6 +41,9 @@ namespace Stomp
             }
         }
 
+        // .NET Bitmap.PixelFormat isn't thread-safe
+        private PixelFormat Format;
+
         public FastBitmap(string path)
         {
             InternalBitmap = new Bitmap(path);
@@ -59,11 +62,14 @@ namespace Stomp
 
                 InternalBitmap = temp;
             }
+
+            Format = InternalBitmap.PixelFormat;
         }
 
         public FastBitmap(int width, int height)
         {
             InternalBitmap = new Bitmap(width, height, PixelFormat.Format24bppRgb);
+            Format = InternalBitmap.PixelFormat;
         }
 
         public void Save(string path)
@@ -80,7 +86,7 @@ namespace Stomp
             Handle = InternalBitmap.LockBits(
                 new Rectangle(Point.Empty, InternalBitmap.Size), 
                 ImageLockMode.ReadWrite, 
-                InternalBitmap.PixelFormat);
+                Format);
 
             Data = new byte[Handle.Stride * InternalBitmap.Height];
             Marshal.Copy(Handle.Scan0, Data, 0, Data.Length);
@@ -122,7 +128,7 @@ namespace Stomp
 
         public Color GetPixel(int x, int y)
         {
-            switch (InternalBitmap.PixelFormat)
+            switch (Format)
             {
                 case PixelFormat.Format16bppArgb1555:
                     {
@@ -189,13 +195,13 @@ namespace Stomp
                             Data[index]);
                     }
                 default:
-                    throw new Exception("Unsupported pixel format");
+                    throw new Exception("Unsupported pixel format " + Format);
             }
         }
 
         public void SetPixel(int x, int y, Color clr)
         {
-            switch (InternalBitmap.PixelFormat)
+            switch (Format)
             {
                 case PixelFormat.Format24bppRgb:
                     {
@@ -219,7 +225,7 @@ namespace Stomp
                         break;
                     }
                 default:
-                    throw new Exception("Unsupported pixel format");
+                    throw new Exception("Unsupported pixel format " + Format);
             }
         }
 
@@ -228,7 +234,7 @@ namespace Stomp
             int index = (y * Handle.Stride);
             int len = 0;
 
-            switch (InternalBitmap.PixelFormat)
+            switch (Format)
             {
                 case PixelFormat.Format16bppArgb1555:
                 case PixelFormat.Format16bppGrayScale:
@@ -251,7 +257,7 @@ namespace Stomp
                     len = 8;
                     break;
                 default:
-                    throw new Exception("Unsupported pixel format");
+                    throw new Exception("Unsupported pixel format " + Format);
             }
 
             index += x * len;
@@ -266,7 +272,7 @@ namespace Stomp
         {
             Dictionary<string, byte[]> ret = new Dictionary<string, byte[]>();
 
-            switch (InternalBitmap.PixelFormat)
+            switch (Format)
             {
                 case PixelFormat.Format24bppRgb:
                     {
@@ -322,13 +328,13 @@ namespace Stomp
                         return ret;
                     }
                 default:
-                    throw new Exception("Unsupported pixel format");
+                    throw new Exception("Unsupported pixel format " + Format);
             }
         }
 
         public void WriteChannels(Dictionary<string, byte[]> channels)
         {
-            switch (InternalBitmap.PixelFormat)
+            switch (Format)
             {
                 case PixelFormat.Format24bppRgb:
                     {
@@ -398,7 +404,7 @@ namespace Stomp
                         break;
                     }
                 default:
-                    throw new Exception("Unsupported pixel format");
+                    throw new Exception("Unsupported pixel format " + Format);
             }
         }
     }

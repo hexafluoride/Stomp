@@ -13,8 +13,12 @@ namespace Stomp
             FastBitmap ret = new FastBitmap(input.Width, input.Height);
             ret.Lock();
 
+            // .NET's Bitmap.Width/Height isn't thread-safe
+            int width = input.Width; 
+            int height = input.Height;
+
             // encode the first line with zero subtype
-            for (int x = 0; x < input.Width; x++)
+            for (int x = 0; x < width; x++)
                 ret.SetPixel(x, 0, input.GetPixel(x, 0));
 
             Parallel.For(1, input.Height, y =>
@@ -24,13 +28,13 @@ namespace Stomp
                 switch (type)
                 {
                     case FilterType.None:
-                        for (int x = 0; x < input.Width; x++)
+                        for (int x = 0; x < width; x++)
                             ret.SetPixel(x, y, input.GetPixel(x, y));
                         break;
                     case FilterType.Sub:
                         ret.SetPixel(0, y, input.GetPixel(0, y));
 
-                        for (int x = 1; x < input.Width; x++)
+                        for (int x = 1; x < width; x++)
                         {
                             Color original = input.GetPixel(x, y);
                             Color left = input.GetPixel(x - 1, y);
@@ -41,7 +45,7 @@ namespace Stomp
                         }
                         break;
                     case FilterType.Up:
-                        for (int x = 0; x < input.Width; x++)
+                        for (int x = 0; x < width; x++)
                         {
                             Color original = input.GetPixel(x, y);
                             Color up = input.GetPixel(x, y - 1);
@@ -54,7 +58,7 @@ namespace Stomp
                     case FilterType.Average:
                         ret.SetPixel(0, y, input.GetPixel(0, y));
 
-                        for (int x = 1; x < input.Width; x++)
+                        for (int x = 1; x < width; x++)
                         {
                             Color original = input.GetPixel(x, y);
 
@@ -70,7 +74,7 @@ namespace Stomp
                     case FilterType.Paeth:
                         ret.SetPixel(0, y, input.GetPixel(0, y));
 
-                        for (int x = 1; x < input.Width; x++)
+                        for (int x = 1; x < width; x++)
                         {
                             Color original = input.GetPixel(x, y);
 
@@ -100,24 +104,28 @@ namespace Stomp
                 output.Lock();
             }
 
+            // .NET's Bitmap.Width/Height isn't thread-safe
+            int width = input.Width;
+            int height = input.Height;
+
             // decode the first line with zero subtype
-            for (int x = 0; x < input.Width; x++)
+            for (int x = 0; x < width; x++)
                 output.SetPixel(x, 0, input.GetPixel(x, 0));
 
-            for(int y = 1; y < input.Height; y++)
+            for(int y = 1; y < height; y++)
             {
                 FilterType type = filters[y];
 
                 switch (type)
                 {
                     case FilterType.None:
-                        for (int x = 0; x < input.Width; x++)
+                        for (int x = 0; x < width; x++)
                             output.SetPixel(x, y, input.GetPixel(x, y));
                         break;
                     case FilterType.Sub:
                         output.SetPixel(0, y, input.GetPixel(0, y));
 
-                        for (int x = 1; x < input.Width; x++)
+                        for (int x = 1; x < width; x++)
                         {
                             Color original = input.GetPixel(x, y);
                             Color left = output.GetPixel(x - 1, y);
@@ -128,7 +136,7 @@ namespace Stomp
                         }
                         break;
                     case FilterType.Up:
-                        for (int x = 0; x < input.Width; x++)
+                        for (int x = 0; x < width; x++)
                         {
                             Color original = input.GetPixel(x, y);
                             Color up = output.GetPixel(x, y - 1);
@@ -141,7 +149,7 @@ namespace Stomp
                     case FilterType.Average:
                         output.SetPixel(0, y, input.GetPixel(0, y));
 
-                        for (int x = 1; x < input.Width; x++)
+                        for (int x = 1; x < width; x++)
                         {
                             Color original = input.GetPixel(x, y);
 
@@ -157,7 +165,7 @@ namespace Stomp
                     case FilterType.Paeth:
                         output.SetPixel(0, y, input.GetPixel(0, y));
 
-                        for (int x = 1; x < input.Width; x++)
+                        for (int x = 1; x < width; x++)
                         {
                             Color original = input.GetPixel(x, y);
 
